@@ -1,0 +1,43 @@
+{% set name = "syncer" %}
+{% set version = "2.0.3" %}
+
+package:
+  name: {{ name|lower }}
+  version: {{ version }}
+
+source:
+  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/syncer-{{ version }}.tar.gz
+  sha256: 4340eb54b54368724a78c5c0763824470201804fe9180129daf3635cb500550f
+
+build:
+  noarch: python
+  script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
+  number: 0
+
+requirements:
+  host:
+    - python
+    - pip
+  run:
+    - python
+
+test:
+  imports:
+    - syncer
+  commands:
+    - pip check
+  requires:
+    - pip
+
+about:
+  home: https://github.com/miyakogi/syncer
+  summary: Async to sync converter
+  license: MIT
+  license_file: LICENSE
+
+extra:
+  anaconda-services:
+    ref: https://anaconda.zendesk.com/agent/tickets/49522
+    reason: Dependency for chainlit
+  recipe-maintainers:
+    - ianaobi
