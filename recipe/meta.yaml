@@ -41,3 +41,4 @@ extra:
     reason: Dependency for chainlit
   recipe-maintainers:
     - ianaobi
+    - bkreider
