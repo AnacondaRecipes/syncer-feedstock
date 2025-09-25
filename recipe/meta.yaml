@@ -6,21 +6,23 @@ package:
   version: {{ version }}
 
 source:
-  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/syncer-{{ version }}.tar.gz
+  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
   sha256: 4340eb54b54368724a78c5c0763824470201804fe9180129daf3635cb500550f
 
 build:
-  noarch: python
-  script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
   number: 0
+  script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
 
 requirements:
   host:
-    - python
     - pip
+    - python
+    - wheel
+    - setuptools
   run:
     - python
 
+# Tests disabled, xfail pkg not in the main channel.
 test:
   imports:
     - syncer
@@ -33,7 +35,13 @@ about:
   home: https://github.com/miyakogi/syncer
   summary: Async to sync converter
   license: MIT
+  license_family: MIT
   license_file: LICENSE
+  description: |
+    Sometimes (mainly in test) we need to convert asynchronous functions to normal, synchronous functions and run them synchronously. It can be done by ayncio.get_event_loop().run_until_complete(), but it’s quite long…
+    Syncer makes this conversion easy.
+  doc_url: https://github.com/miyakogi/syncer/blob/master/README.rst
+  dev_url: https://github.com/miyakogi/syncer
 
 extra:
   anaconda-services:
